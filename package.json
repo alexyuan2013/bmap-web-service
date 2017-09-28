@@ -1,0 +1,22 @@
+{
+  "name": "bmap-web-service",
+  "version": "1.0.0",
+  "description": "baidu map service api for nodejs",
+  "main": "bmap-web-service.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "baidu",
+    "map",
+    "bmap",
+    "nodejs"
+  ],
+  "author": "alex",
+  "license": "ISC",
+  "dependencies": {
+    "md5": "^2.2.1",
+    "promise": "^8.0.1",
+    "request": "^2.83.0"
+  }
+}
