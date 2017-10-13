@@ -97,4 +97,51 @@ BMapWebService.prototype.geoCodingReverseBatch = function(locations, coordtype) 
   })
 }
 
+/**
+ * 坐标转换api
+ */
+BMapWebService.prototype.coorConvert = function(coords, from, to) {
+  from = from || 1 //默认为1，即GPS设备获取的坐标
+  to = to || 5//默认为5，即bd09ll(百度坐标)
+  var url = ""
+  if (this.sk) {
+    url = '/geoconv/v1/?coords=' + encodeURIComponent(coords) + '&from=' + from + '&to=' + to + '&output=' + this.format + '&ak=' + this.ak + this.sk
+    sn = this.snCal(url)
+    url = this.baseUrl + url.replace(this.sk, '') + '&sn=' + sn
+  } else {
+    url = this.baseUrl + '/geoconv/v1/?coords=' + encodeURIComponent(coords) + '&from=' + from + '&to=' + to + '&output=' + this.format + '&ak=' + this.ak
+  }
+  return new Promise(function(resolve, reject){
+    request.get(url, function(err, res, body){
+      if (err){
+        reject(err)
+      }
+      resolve(body)
+    })
+  })
+}
+
+/**
+ * ip定位
+ */
+BMapWebService.prototype.IPLocation = function(coor) {
+  coor = coor || 'bd09ll' //返回坐标类型，支持bd09mc（百度墨卡托坐标）、bd09ll（百度经纬度坐标）和gcj02（国测局坐标）；
+  var url = ""
+  if (this.sk) {
+    url = '/location/ip?coor=' + coor + '&ak=' + this.ak + this.sk
+    sn = this.snCal(url)
+    url = this.baseUrl + url.replace(this.sk, '') + '&sn=' + sn
+  } else {
+    url = this.baseUrl + '/location/ip?coor=' + coor + '&ak=' + this.ak
+  }
+  return new Promise(function(resolve, reject){
+    request.get(url, function(err, res, body){
+      if (err){
+        reject(err)
+      }
+      resolve(body)
+    })
+  })
+}
+
 module.exports = BMapWebService
